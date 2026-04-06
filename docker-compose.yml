@@ -2,6 +2,8 @@ services:
   web:
     build: .
     command: bundle exec rails server -b 0.0.0.0 -p 3000
+    env_file:
+      - .env
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
@@ -13,10 +15,13 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: app_development
       POSTGRES_TEST_DB: app_test
+      REDIS_URL: redis://redis:6379/0
       RAILS_ENV: development
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
 
   db:
     image: postgres:16-alpine
@@ -34,6 +39,14 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
 volumes:
   bundle:
   postgres:
+  redis:
