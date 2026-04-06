@@ -9,9 +9,14 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 gem "dry-monads"
+gem "dry-container"
 gem "dry-struct"
+gem "dry-transaction"
 gem "dry-validation"
+gem 'dry-types'
 gem "redis"
+gem "oj"
+gem "fast_jsonapi"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"

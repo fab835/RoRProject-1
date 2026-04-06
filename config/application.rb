@@ -13,6 +13,12 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 # require "rails/test_unit/railtie"
+require 'dry-container'
+require 'dry-monads'
+require 'dry-struct'
+require 'dry-transaction'
+require 'dry-types'
+require 'dry-validation'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
