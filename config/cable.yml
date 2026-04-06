@@ -1,0 +1,10 @@
+development:
+  adapter: async
+  channel_prefix: app_development
+
+test:
+  adapter: test
+
+production:
+  adapter: async
+  channel_prefix: app_production
