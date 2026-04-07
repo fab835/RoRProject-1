@@ -6,7 +6,7 @@ module Containers
       register 'validate_zipcode' do |input|
         zipcode = input.fetch(:zipcode).to_s.strip
         validation = @validator.call(zipcode:)
-        
+
         raise DefaultError.new(validation.errors.to_h, :validation) if validation.failure?
 
         Dry::Monads::Success(input.merge(zipcode:))

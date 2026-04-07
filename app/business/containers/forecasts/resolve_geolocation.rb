@@ -9,20 +9,17 @@ module Containers
         else
           zipcode = input.fetch(:zipcode)
           geolocation = Geolocation.find_by(zipcode:)
-          if geolocation.present?
-            Dry::Monads::Success(input.merge(geolocation:)) 
-          else
+          if geolocation.blank?
             response = @client.fetch(zipcode:)
-            raise StandardError, response.failure if response.failure?
 
             geolocation = Geolocation.create!(
               zipcode:,
-              latitude: response.value![:latitude],
-              longitude: response.value![:longitude]
+              latitude: response[:latitude],
+              longitude: response[:longitude]
             )
 
-            Dry::Monads::Success(input.merge(geolocation:))
           end
+          Dry::Monads::Success(input.merge(geolocation:))
         end
       rescue DefaultError => exception
         Dry::Monads::Failure(type: exception.type, message: exception.errors)

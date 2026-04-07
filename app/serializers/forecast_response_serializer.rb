@@ -1,8 +1,7 @@
-
 class ForecastResponseSerializer
   include FastJsonapi::ObjectSerializer
 
-  set_id { |_| nil } 
+  set_id { |_| nil }
 
   attributes :zipcode, :cached_result
 

@@ -5,21 +5,22 @@ module Containers
 
       register 'fetch_weather' do |input|
         if input[:cached_payload].present?
-          Dry::Monads::Success(input) 
+          Dry::Monads::Success(input)
         else
           geolocation = input.fetch(:geolocation)
           response = @client.fetch(latitude: geolocation.latitude.to_f, longitude: geolocation.longitude.to_f)
-          raise StandardError, response.failure if response.failure?
 
           temperature = Entities::TemperatureEntity.new(
-            min: response.value![:min],
-            max: response.value![:max],
-            current: response.value![:current],
-            unit: response.value![:unit]
+            min: response[:min],
+            max: response[:max],
+            current: response[:current],
+            unit: response[:unit]
           )
 
           Dry::Monads::Success(input.merge(temperature:))
         end
+      rescue DefaultError => exception
+        Dry::Monads::Failure(type: exception.type, message: exception.errors)
       rescue StandardError => exception
         Dry::Monads::Failure(type: :internal_error, message: exception.message)
       end

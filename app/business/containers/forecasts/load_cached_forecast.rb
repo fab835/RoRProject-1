@@ -1,8 +1,8 @@
 module Containers
-  module Forecasts 
+  module Forecasts
     class LoadCachedForecast < ApplicationContainer
       @cache = Rails.cache
-      
+
       register 'load_cached_forecast' do |input|
         cached_payload = @cache.read("forecast:#{input.fetch(:zipcode)}")
 

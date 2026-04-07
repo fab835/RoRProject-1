@@ -1,10 +1,10 @@
 module Api
   class ForecastsController < ApiController
     def show
-      result = ::Transactions::Forecasts::FetchForecast.new.call(zipcode: permit_params[:zipcode])
+      result = ::Transactions::Forecasts::FetchForecast.new.call(zipcode: permit_params[:zipcode] || params[:zipcode])
 
       if result.success?
-        render_object(ForecastResponseSerializer.serialize(result.value!))
+        render_object(result.value!.as_json)
       else
         render_error(result.failure)
       end

@@ -1,17 +1,17 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails"
+require 'rails'
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "active_storage/engine"
-require "action_controller/railtie"
-require "action_mailer/railtie"
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
 # require "action_mailbox/engine"
 # require "action_text/engine"
-require "action_view/railtie"
-require "action_cable/engine"
+require 'action_view/railtie'
+require 'action_cable/engine'
 # require "rails/test_unit/railtie"
 require 'dry-container'
 require 'dry-monads'
@@ -41,8 +41,8 @@ module App
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.autoload_paths << Rails.root.join("app/errors")
-    config.eager_load_paths << Rails.root.join("app/errors")
+    config.autoload_paths << Rails.root.join('app/errors')
+    config.eager_load_paths << Rails.root.join('app/errors')
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.generators do |generate|
@@ -51,10 +51,10 @@ module App
       generate.routing_specs false
       generate.system_tests nil
       generate.test_framework :rspec,
-        fixtures: true,
-        helper_specs: false,
-        routing_specs: false,
-        view_specs: false
+                              fixtures: true,
+                              helper_specs: false,
+                              routing_specs: false,
+                              view_specs: false
     end
   end
 end

@@ -1,11 +1,10 @@
-
 class ForecastSerializer
   include FastJsonapi::ObjectSerializer
 
-  set_id { |_| nil } 
+  set_id { |_| nil }
 
   attribute :temperature do |object|
-    temperature = object[:temperature] || object["temperature"]
+    temperature = object[:temperature] || object['temperature']
 
     TemperatureSerializer
       .new(OpenStruct.new(temperature))

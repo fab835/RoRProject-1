@@ -1,5 +1,5 @@
 class ApplicationEntity < Dry::Struct
-	module Types
+  module Types
     include Dry.Types()
   end
 end

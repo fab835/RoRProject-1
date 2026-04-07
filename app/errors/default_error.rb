@@ -4,6 +4,6 @@ class DefaultError < StandardError
   def initialize(errors, type = :internal_error)
     @type = type
     @errors = errors
-    super("System Error")
+    super('System Error')
   end
 end

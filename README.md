@@ -1,7 +1,7 @@
 # RoRProject-1
 
 ## Requirement 1:
-● Must be done in Ruby on Rails - OK
+● Must be done in Ruby on Rails
 ● Accept an address as input
 ● Retrieve forecast data for the given zip code. This should include, at minimum, the
 current temperature (Bonus points - Retrieve high/low and/or extended forecast)
@@ -26,13 +26,38 @@ making to these services.
 You should adhere to the Spring/Spring Boot patterns you are familiar with, including the utilization of Controllers, Models,
 Services, and Repositories.
 
+## TODO
+1. Setup the rails project. - OK
+2. Create Geolocations model to save latitude and longitude of a zip code
+3. Create a service label to make a call to the geolocation and wather API.
+4. Create a API path to request the forecast info.
+   - Search for the geolocation for the zipcode. (saved in system or using an external API)
+   - Save geolocation if it's new.
+   - Search for the forecast by longitude and latitude.
+   - Cache the API results for 30 minutes.
+   - Payload:
+    ```json
+        {"data": { 
+            "zipcode": "03456",
+            "cachedResult": true,
+            "forecast": {
+                "temperature": {
+                    "min": 20,
+                    "max": 28,
+                    "current": 25,
+                    "unit": "celsius"
+                } 
+            },
+        }}
+    ```
+6. Configure Redis for cache.
+5. Create spec.
+
 ## Stack
 
 - Ruby on Rails 8
 - PostgreSQL 16
-- dry-monads, dry-struct, dry-validation
-- RSpec
-- RuboCop
+- Redis 7 for caching
 
 ## Start the project
 
@@ -63,3 +88,20 @@ Run RuboCop:
 ```bash
 docker compose run --rm web bundle exec rubocop
 ```
+
+## API authentication
+
+Set the internal API token in `.env`:
+
+```bash
+INTERNAL_API_AUTH_TOKEN=development-token
+```
+
+Call the forecast endpoint with the bearer token:
+
+```bash
+curl -H "Authorization: Bearer development-token" \
+  "http://localhost:3000/api/forecast?zipcode=03456"
+```
+
+Redis is configured as the Rails cache store in development via `REDIS_URL`.
