@@ -1,20 +1,109 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
-
 plugins:
   - rubocop-rspec
+  - rubocop-rails
+  - rubocop-capybara
+  - rubocop-factory_bot
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+Naming/MethodParameterName:
+  Enabled: false
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
-    - "bin/*"
-    - "db/schema.rb"
+    - bin/**/*
+    - db/**/*
+    - log/**/*
+    - node_modules/**/*
+    - vendor/**/*
+
+Metrics/BlockLength:
+  Exclude:
+    - app/business/containers/**/*.rb
+    - spec/**/*.rb
+    - db/**/*.rb
+    - config/routes.rb
+    - config/environments/*.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - spec/**/*.rb
+    - db/**/*.rb
+
+Style/StringLiterals:
+  Exclude:
+    - db/**/*.rb
+
+Style/WordArray:
+  Exclude:
+    - db/**/*.rb
+
+Style/NumericLiterals:
+  Exclude:
+    - db/**/*.rb
+
+Style/SingleLineMethods:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - db/**/*.rb
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: exception
+
+Layout/EndOfLine:
+  EnforcedStyle: lf
+
+Lint/MissingSuper:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - db/**/*.rb
+
+RSpec/NamedSubject:
+  Exclude:
+    - spec/support/**/*.rb
+
+RSpec/ExampleLength:
+  Exclude:
+    - spec/**/*.rb
 
 RSpec/MultipleExpectations:
-  Max: 3
+  Exclude:
+    - spec/**/*.rb
+
+RSpec/SpecFilePathFormat:
+  Exclude:
+    - spec/business/forecasts/use_cases/fetch_forecast_spec.rb
+
+Rails/Exit:
+  Exclude:
+    - spec/rails_helper.rb
+
+Rails/DeprecatedActiveModelErrorsMethods:
+  Exclude:
+    - app/business/containers/**/*.rb
