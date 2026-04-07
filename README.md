@@ -28,9 +28,9 @@ Services, and Repositories.
 
 ## TODO
 1. Setup the rails project. - OK
-2. Create Geolocations model to save latitude and longitude of a zip code
-3. Create a service label to make a call to the geolocation and wather API.
-4. Create a API path to request the forecast info.
+2. Create Geolocations model to save latitude and longitude of a zip code - OK
+3. Create a service label to make a call to the geolocation and wather API. - OK
+4. Create a API path to request the forecast info. - OK
    - Search for the geolocation for the zipcode. (saved in system or using an external API)
    - Save geolocation if it's new.
    - Search for the forecast by longitude and latitude.
@@ -50,8 +50,8 @@ Services, and Repositories.
             },
         }}
     ```
-6. Configure Redis for cache.
-5. Create spec.
+6. Configure Redis for cache. - OK
+5. Create spec. - OK
 
 ## Stack
 
@@ -61,13 +61,14 @@ Services, and Repositories.
 
 ## Start the project
 
-Build and start the containers:
+1. Create the .env file, you can use the .env.example
 
+2. Build and start the containers:
 ```bash
 docker compose up --build
 ```
 
-Open the app at [http://localhost:3000](http://localhost:3000).
+3. app runing at [http://localhost:3000](http://localhost:3000).
 
 ## Useful commands
 
@@ -97,11 +98,28 @@ Set the internal API token in `.env`:
 INTERNAL_API_AUTH_TOKEN=development-token
 ```
 
+## Endpoints
 Call the forecast endpoint with the bearer token:
 
 ```bash
 curl -H "Authorization: Bearer development-token" \
-  "http://localhost:3000/api/forecast?zipcode=03456"
+  "http://localhost:3000/api/forecast?zipcode=44444"
 ```
 
-Redis is configured as the Rails cache store in development via `REDIS_URL`.
+payload: 
+```JSON
+    {
+        "data": {
+            "zipcode": "44422",
+            "cachedResult": true,
+            "forecast": {
+                "temperature": {
+                    "min": 0.6,
+                    "max": 8.8,
+                    "current": 6.9,
+                    "unit": "celsius"
+                }
+            }
+        }
+	}
+```
