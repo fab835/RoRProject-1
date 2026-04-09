@@ -103,7 +103,7 @@ Call the forecast endpoint with the bearer token:
 
 ```bash
 curl -H "Authorization: Bearer development-token" \
-  "http://localhost:3000/api/forecast?zipcode=44444"
+  "http://localhost:3000/api/forecast/44444"
 ```
 
 payload: 
