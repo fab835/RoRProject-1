@@ -7,7 +7,7 @@ RSpec.describe WeatherApi::Client do
         .to_return(
           status: 200,
           body: {
-            'current' => { 'temperature_2m' => 17.2 },
+            'current' => { 'temperature_2m' => 17.2, 'relative_humidity_2m' => 38, 'rain' => 0.00 },
             'current_units' => { 'temperature_2m' => '°C' },
             'daily' => {
               'temperature_2m_min' => [12.5],
@@ -19,7 +19,7 @@ RSpec.describe WeatherApi::Client do
 
       result = described_class.new.fetch(latitude: 51.501, longitude: -0.1416)
 
-      expect(result).to eq(min: 12.5, max: 21.3, current: 17.2, unit: 'celsius')
+      expect(result).to eq(min: 12.5, max: 21.3, current: 17.2, unit: 'celsius', humidity: 38, rain: 0.00)
     end
 
     it 'raises an external api error for incomplete payloads' do

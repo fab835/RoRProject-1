@@ -7,6 +7,7 @@ RSpec.describe Transactions::Forecasts::FetchForecast do
 
   let(:geolocation) { Geolocation.new(zipcode: '03456', latitude: 40.7357, longitude: -74.1724) }
   let(:temperature) { Entities::TemperatureEntity.new(min: 20.0, max: 28.0, current: 25.0, unit: 'celsius') }
+  let(:extra) { Entities::ExtraEntity.new(humidity: 30, rain: 0.0) }
   let(:validate_zipcode) { instance_double(Proc) }
   let(:load_cached_forecast) { instance_double(Proc) }
   let(:resolve_geolocation) { instance_double(Proc) }
@@ -31,7 +32,7 @@ RSpec.describe Transactions::Forecasts::FetchForecast do
     response_payload = {
       zipcode: '03456',
       cached_result: false,
-      forecast: { temperature: temperature.as_json }
+      forecast: { temperature: temperature.as_json, extra: extra.as_json }
     }
     response_input = weather_input.merge(response_payload:)
     forecast_entity = Entities::ForecastEntity.new(response_payload)
@@ -55,13 +56,13 @@ RSpec.describe Transactions::Forecasts::FetchForecast do
       zipcode: '03456',
       cached_payload: {
         zipcode: '03456',
-        forecast: { temperature: temperature.as_json }
+        forecast: { temperature: temperature.as_json, extra: extra.as_json }
       }
     }
     forecast_entity = Entities::ForecastEntity.new(
       zipcode: '03456',
       cached_result: true,
-      forecast: { temperature: temperature.as_json }
+      forecast: { temperature: temperature.as_json, extra: extra.as_json }
     )
 
     allow(validate_zipcode).to receive(:call).with(zipcode: '03456').and_return(Success(validated_input))

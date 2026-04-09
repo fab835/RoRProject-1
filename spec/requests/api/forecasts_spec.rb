@@ -10,7 +10,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
 
   describe 'GET /api/forecast' do
     it 'returns the forecast payload and persists a new geolocation' do
-      zipcode = fake_postal_code
+      zipcode = '60601'
       stub_geolocation_request(zipcode:, latitude: '40.7357', longitude: '-74.1724')
       stub_weather_request(latitude: '40.7357', longitude: '-74.1724')
 
@@ -27,6 +27,10 @@ RSpec.describe 'Api::Forecasts', type: :request do
               'max' => 28.0,
               'current' => 25.0,
               'unit' => 'celsius'
+            },
+            'extra' => {
+              'humidity' => 38,
+              'rain' => 0.0
             }
           }
         }
@@ -72,19 +76,14 @@ RSpec.describe 'Api::Forecasts', type: :request do
   end
 
   def stub_geolocation_request(zipcode:, latitude:, longitude:)
-    encoded_zipcode = ERB::Util.url_encode(zipcode)
-
-    stub_request(:get, "https://api.zippopotam.us/us/#{encoded_zipcode}")
+    stub_request(:get, "https://nominatim.openstreetmap.org/search?country=Brazil&format=json&postalcode=#{zipcode}")
       .to_return(
         status: 200,
-        body: {
-          'places' => [
-            {
-              'latitude' => latitude,
-              'longitude' => longitude
-            }
-          ]
-        }.to_json,
+        body: [{
+          'lat' => latitude,
+          'lon' => longitude,
+          'display_name' => '03407-000, St. ABC'
+        }].to_json,
         headers: { 'Content-Type' => 'application/json' }
       )
   end
@@ -98,7 +97,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
       .to_return(
         status: 200,
         body: {
-          'current' => { 'temperature_2m' => 25.0 },
+          'current' => { 'temperature_2m' => 25.0, 'relative_humidity_2m' => 38, 'rain' => 0.00 },
           'current_units' => { 'temperature_2m' => '°C' },
           'daily' => {
             'temperature_2m_min' => [20.0],
