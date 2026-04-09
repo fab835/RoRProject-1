@@ -40,6 +40,10 @@
 7. Extra - include humidity and rain forecast. - OK
 
 ## Stack
+![ruby](https://img.shields.io/badge/Ruby-3.3.11-e62b12?style=flat&logo=ruby&logoColor=e62b12)
+![rails](https://img.shields.io/badge/Ruby_on_Rails-v8.1.3-e62b12?style=flat&logo=ruby-on-rails&logoColor=e62b12)
+![postgre](https://img.shields.io/badge/PostgreSQL-v16-4169E1?style=flat&logo=PostgreSQL&logoColor=black)
+![redis](https://img.shields.io/badge/Redis-v7-e62b12?&style=flat&logo=redis&logoColor=e62b12)
 
 - Ruby on Rails 8
 - PostgreSQL 16
@@ -127,3 +131,17 @@ payload:
         }
 	}
 ```
+
+## Project Architecture
+Following a Clean architecture pattern, this project has layers with single responsibilities. It uses dry gem to help with the project organization.
+
+![Project Architecture](doc/PojectArchitecture.png)
+
+- Routes: HTTP entry points and route registration.
+- Controllers: Request-level orchestration and response shaping.
+- Serializers: Ensures the correct JSON response format for the API.
+- Transactions: Data orchestration.
+- Containers: Lower-level business steps.
+- Entities: Domain normalization, and sanitization.
+- Models: Local DB.
+- Services: External services and APIs.
