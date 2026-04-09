@@ -12,7 +12,8 @@ module Containers
             zipcode: input.fetch(:zipcode),
             cached_result: false,
             forecast: {
-              temperature: input.fetch(:temperature).as_json
+              temperature: input.fetch(:temperature).as_json,
+              extra: input.fetch(:extra).as_json
             }
           }
 

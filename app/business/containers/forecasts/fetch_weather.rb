@@ -17,7 +17,12 @@ module Containers
             unit: response[:unit]
           )
 
-          Dry::Monads::Success(input.merge(temperature:))
+          extra = Entities::ExtraEntity.new(
+            humidity: response[:humidity] || 0,
+            rain: response[:rain] || 0
+          )
+
+          Dry::Monads::Success(input.merge({ temperature:, extra: }))
         end
       rescue DefaultError => exception
         Dry::Monads::Failure(type: exception.type, message: exception.errors)
