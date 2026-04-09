@@ -1,16 +1,15 @@
 # RoRProject-1
 
 ## Requirement:
-● Must be done in Ruby on Rails
-● Accept an address as input
-● Retrieve forecast data for the given zip code. This should include, at minimum, the
-current temperature (Bonus points - Retrieve high/low and/or extended forecast)
-● Display the requested forecast details to the user
-● Cache the forecast details for 30 minutes for all subsequent requests by zip codes.
-● Display an indicator if the result is pulled from cache.
-Assumptions:
-● This project is open to interpretation
-● Functionality is a priority over form
+- Must be done in Ruby on Rails
+- Accept an address as input
+- Retrieve forecast data for the given zip code. This should include, at minimum, the current temperature (Bonus points - Retrieve high/low and/or extended forecast)
+- Display the requested forecast details to the user
+- Cache the forecast details for 30 minutes for all subsequent requests by zip codes.
+- Display an indicator if the result is pulled from cache.
+### Assumptions:
+- This project is open to interpretation
+- Functionality is a priority over form
 
 ## TODO
 1. Setup the rails project. - OK
@@ -36,8 +35,9 @@ Assumptions:
             },
         }}
     ```
-6. Configure Redis for cache. - OK
-5. Create spec. - OK
+5. Configure Redis for cache. - OK
+6. Create spec. - OK
+7. Extra - include humidity and rain forecast. - OK
 
 ## Stack
 
@@ -118,6 +118,10 @@ payload:
                     "max": 8.8,
                     "current": 6.9,
                     "unit": "celsius"
+                },
+                "extra": {
+                    "humidity": 26,
+                    "rain": 0.0
                 }
             }
         }
