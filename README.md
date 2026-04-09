@@ -56,7 +56,7 @@ docker compose up --build
 
 3. app runing at [http://localhost:3000](http://localhost:3000).
 
-4. (First Run) Create and prepare the database - See the command below
+4. (First Run) prepare database - See the command below
 
 ## Useful commands
 
@@ -64,6 +64,18 @@ Create and prepare the database:
 
 ```bash
 docker compose run --rm web bundle exec rails db:prepare
+```
+
+Create the database:
+
+```bash
+docker compose run --rm web bundle exec rails db:create
+```
+
+Migrate the database:
+
+```bash
+docker compose run --rm web bundle exec rails db:migrate
 ```
 
 Run the test suite:
