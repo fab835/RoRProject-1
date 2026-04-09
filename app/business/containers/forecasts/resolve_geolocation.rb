@@ -2,6 +2,7 @@ module Containers
   module Forecasts
     class ResolveGeolocation < ApplicationContainer
       @client = ::GeolocationApi::Client.new
+      @client2 = ::GeolocationApi::ClientSecondary.new
 
       register 'resolve_geolocation' do |input|
         if input[:cached_payload].present?
@@ -10,7 +11,11 @@ module Containers
           zipcode = input.fetch(:zipcode)
           geolocation = Geolocation.find_by(zipcode:)
           if geolocation.blank?
-            response = @client.fetch(zipcode:)
+            begin
+              response = @client.fetch(zipcode:)
+            rescue StandardError # Backup
+              response = @client2.fetch(zipcode:)
+            end
 
             geolocation = Geolocation.create!(
               zipcode:,
