@@ -2,12 +2,13 @@ module WeatherApi
   class Client
     BASE_URL = 'https://api.open-meteo.com/v1/forecast'.freeze
 
-    def initialize(http_client: Http::JsonClient.new)
-      @http_client = http_client
+    def initialize(connection: default_connection)
+      @connection = connection
     end
 
     def fetch(latitude:, longitude:)
-      response = http_client.get(uri(latitude:, longitude:))
+      response = connection.get(uri(latitude:, longitude:))
+
       normalize_response(response)
     rescue ArgumentError => exception
       raise DefaultError.new(exception.message, :external_api_error)
@@ -17,7 +18,7 @@ module WeatherApi
 
     private
 
-    attr_reader :http_client
+    attr_reader :connection
 
     def uri(latitude:, longitude:)
       params = {
@@ -28,10 +29,11 @@ module WeatherApi
         timezone: 'auto'
       }
 
-      URI("#{BASE_URL}?#{params.to_query}")
+      "?#{params.to_query}"
     end
 
     def normalize_response(response)
+      response = JSON.parse(response.body)
       payload = weather_payload(response)
 
       {
@@ -59,6 +61,15 @@ module WeatherApi
 
     def normalize_unit(unit)
       unit == '°C' ? 'celsius' : unit.to_s
+    end
+
+    def default_connection
+      Faraday.new(url: BASE_URL) do |conn|
+        conn.headers['User-Agent'] = 'my-app'
+        conn.headers['Accept-Language'] = 'en'
+
+        conn.adapter Faraday.default_adapter
+      end
     end
   end
 end
