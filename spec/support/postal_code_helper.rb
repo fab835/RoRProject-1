@@ -1,6 +1,6 @@
 module PostalCodeHelper
   def fake_postal_code
-    "#{Faker::Alphanumeric.alphanumeric(number: 3).upcase} #{Faker::Alphanumeric.alphanumeric(number: 3).upcase}"
+    Faker::Address.postcode
   end
 end
 
