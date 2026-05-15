@@ -42,12 +42,14 @@ RSpec.describe 'Api::Forecasts', type: :request do
     end
 
     it 'returns a cached result on subsequent calls' do
+      allow(Rails.cache).to receive(:write).and_call_original
       geolocation = create(:geolocation, zipcode: fake_postal_code, latitude: 40.7357, longitude: -74.1724)
       weather_request = stub_weather_request(latitude: '40.7357', longitude: '-74.1724')
 
       get '/api/forecast', params: { zipcode: geolocation.zipcode }, headers: headers
       get '/api/forecast', params: { zipcode: geolocation.zipcode }, headers: headers
 
+      expect(Rails.cache).to have_received(:write).once
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.dig('data', 'cachedResult')).to be(true)
       expect(weather_request).to have_been_requested.once
