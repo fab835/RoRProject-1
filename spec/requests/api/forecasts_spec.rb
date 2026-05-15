@@ -14,7 +14,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
       stub_geolocation_request(zipcode:, latitude: '40.7357', longitude: '-74.1724')
       stub_weather_request(latitude: '40.7357', longitude: '-74.1724')
 
-      get '/api/forecast', params: { zipcode: zipcode }, headers: headers
+      get "/api/forecast/#{zipcode}", headers: headers
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to eq(
@@ -35,7 +35,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
           }
         }
       )
-      expect(Geolocation.find_by(zipcode: zipcode)).to have_attributes(
+      expect(Geolocation.find_by(zipcode:)).to have_attributes(
         latitude: BigDecimal('40.7357'),
         longitude: BigDecimal('-74.1724')
       )
@@ -46,8 +46,8 @@ RSpec.describe 'Api::Forecasts', type: :request do
       geolocation = create(:geolocation, zipcode: fake_postal_code, latitude: 40.7357, longitude: -74.1724)
       weather_request = stub_weather_request(latitude: '40.7357', longitude: '-74.1724')
 
-      get '/api/forecast', params: { zipcode: geolocation.zipcode }, headers: headers
-      get '/api/forecast', params: { zipcode: geolocation.zipcode }, headers: headers
+      get "/api/forecast/#{geolocation.zipcode}", headers: headers
+      get "/api/forecast/#{geolocation.zipcode}", headers: headers
 
       expect(Rails.cache).to have_received(:write).once
       expect(response).to have_http_status(:ok)
@@ -56,7 +56,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
     end
 
     it 'returns unauthorized without a bearer token' do
-      get '/api/forecast', params: { zipcode: fake_postal_code }
+      get "/api/forecast/#{fake_postal_code}"
 
       expect(response).to have_http_status(:unauthorized)
       expect(response.parsed_body).to eq(
@@ -65,7 +65,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
     end
 
     it 'returns validation errors for an invalid zipcode' do
-      get '/api/forecast', params: { zipcode: '!!' }, headers: headers
+      get '/api/forecast/invalidzipcode', headers: headers
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body).to eq(
