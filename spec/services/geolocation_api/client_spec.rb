@@ -27,7 +27,7 @@ RSpec.describe GeolocationApi::Client do
       stub_request(:get, "https://nominatim.openstreetmap.org/search?country=Brazil&format=json&postalcode=#{zipcode}")
         .to_return(status: 404, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      expect { described_class.new.fetch(zipcode: zipcode) }
+      expect { described_class.new.fetch(zipcode:) }
         .to raise_error(DefaultError) { |error| expect(error.type).to eq(:not_found) }
     end
   end

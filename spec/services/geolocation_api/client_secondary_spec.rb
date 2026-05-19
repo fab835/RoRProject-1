@@ -22,7 +22,7 @@ RSpec.describe GeolocationApi::ClientSecondary do
           headers: { 'Content-Type' => 'application/json' }
         )
 
-      result = described_class.new.fetch(zipcode: zipcode)
+      result = described_class.new.fetch(zipcode:)
 
       expect(result).to eq(latitude: 51.501, longitude: -0.1416, display_name: 'Holtsville NY')
     end
@@ -33,7 +33,7 @@ RSpec.describe GeolocationApi::ClientSecondary do
       stub_request(:get, "https://api.zippopotam.us/us/#{ERB::Util.url_encode(zipcode)}")
         .to_return(status: 404, body: {}.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      expect { described_class.new.fetch(zipcode: zipcode) }
+      expect { described_class.new.fetch(zipcode:) }
         .to raise_error(DefaultError) { |error| expect(error.type).to eq(:not_found) }
     end
   end
