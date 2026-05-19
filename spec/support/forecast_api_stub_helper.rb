@@ -26,16 +26,16 @@ module ForecastApiStubHelper
       .to_return(
         status: 200,
         body: {
-          "country": "United States",
-          "country abbreviation": "US",
-          "post code": zipcode.to_s,
-          "places": [
+          country: 'United States',
+          'country abbreviation': 'US',
+          'post code': zipcode.to_s,
+          places: [
             {
-              "place name": "Chicago",
-              "longitude": longitude.to_s,
-              "latitude": latitude.to_s,
-              "state": "Illinois",
-              "state abbreviation": "IL"
+              'place name': 'Chicago',
+              longitude: longitude.to_s,
+              latitude: latitude.to_s,
+              state: 'Illinois',
+              'state abbreviation': 'IL'
             }
           ]
         }.to_json,
