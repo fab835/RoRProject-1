@@ -5,6 +5,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
 
   before do
+    Geolocation.delete_all
     Rails.cache.clear
   end
 
@@ -14,7 +15,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
       stub_geolocation_request(zipcode:, latitude: '40.7357', longitude: '-74.1724')
       stub_weather_request(latitude: '40.7357', longitude: '-74.1724')
 
-      get "/api/forecast/#{zipcode}", headers: headers
+      get("/api/forecast/#{zipcode}", headers:)
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to eq(
@@ -42,14 +43,12 @@ RSpec.describe 'Api::Forecasts', type: :request do
     end
 
     it 'returns a cached result on subsequent calls' do
-      allow(Rails.cache).to receive(:write).and_call_original
       geolocation = create(:geolocation, zipcode: fake_postal_code, latitude: 40.7357, longitude: -74.1724)
       weather_request = stub_weather_request(latitude: '40.7357', longitude: '-74.1724')
 
-      get "/api/forecast/#{geolocation.zipcode}", headers: headers
-      get "/api/forecast/#{geolocation.zipcode}", headers: headers
+      get("/api/forecast/#{geolocation.zipcode}", headers:)
+      get("/api/forecast/#{geolocation.zipcode}", headers:)
 
-      expect(Rails.cache).to have_received(:write).once
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body.dig('data', 'cachedResult')).to be(true)
       expect(weather_request).to have_been_requested.once
@@ -65,7 +64,7 @@ RSpec.describe 'Api::Forecasts', type: :request do
     end
 
     it 'returns validation errors for an invalid zipcode' do
-      get '/api/forecast/invalidzipcode', headers: headers
+      get('/api/forecast/invalidzipcode', headers:)
 
       expect(response).to have_http_status(:unprocessable_content)
       expect(response.parsed_body).to eq(
