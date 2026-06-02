@@ -122,7 +122,7 @@ GEM
       zeitwerk (~> 2.6)
     dry-matcher (1.0.0)
       dry-core (~> 1.0, < 2)
-    dry-monads (1.9.0)
+    dry-monads (1.10.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
@@ -490,7 +490,7 @@ CHECKSUMS
   dry-initializer (3.2.0) sha256=37d59798f912dc0a1efe14a4db4a9306989007b302dcd5f25d0a2a20c166c4e3
   dry-logic (1.6.0) sha256=da6fedbc0f90fc41f9b0cc7e6f05f5d529d1efaef6c8dcc8e0733f685745cea2
   dry-matcher (1.0.0) sha256=3dc86facc998aae3379a5f478550cd1a881ae5354e368ffb7432733c57b0a820
-  dry-monads (1.9.0) sha256=9348a67b5c862c7a876342dbd94737fdf3fb3c17978382cf6801a85b27215816
+  dry-monads (1.10.0) sha256=68c90d77617c6ce88d60704fc3b233907e6320974152fe75ad947f968006ca39
   dry-schema (1.16.0) sha256=cd3aaeabc0f1af66ec82a29096d4c4fb92a0a58b9dae29a22b1bbceb78985727
   dry-struct (1.8.1) sha256=033868594c45241540172bf1ebbc8bb76b72b4f0717072325deba38ac13e80f1
   dry-transaction (0.16.0) sha256=c61a51b37ece177e30cc03c07d4504f617c4c572819ccd1b4ce57b688f777ea7
